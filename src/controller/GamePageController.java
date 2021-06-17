@@ -85,8 +85,10 @@ public class GamePageController implements Initializable {
 
             if (turn.equals(Turn.WHITE)) {
                 moveInAllButtons(color1);
+                moveIn(color1);
             }else {
                 moveInAllButtons(color);
+                moveIn(color);
             }
 
 
@@ -211,7 +213,7 @@ public class GamePageController implements Initializable {
                     if (RealRUOfBlackCell(thisCell , i , j , color)){}
                     if (RealRDOfBlackCell(thisCell , i ,j , color)){}
 
-                    moveIn(color);
+//                    moveIn(color);
                 }
                 if (thisCell[i][j].isWhite() && turn.equals(Turn.WHITE)){
 
@@ -225,6 +227,8 @@ public class GamePageController implements Initializable {
                     if (URealRDOfBlackCell(thisCell , i ,j , color)){}
                     if (RealRUOfBlackCell(thisCell , i , j , color)){}
                     if (RealRDOfBlackCell(thisCell , i ,j , color)){}
+
+//                    moveIn(color);
                 }
             }
         }
@@ -242,22 +246,27 @@ public class GamePageController implements Initializable {
     private void callSetOnActions(Cell cell , String[] color){
         cell.setOnAction(e ->{
             if (cell.isSelectable()){
+                //Right movement
                 if (cell.getxPosition() == xEndR && cell.getyPosition() == yEndR) {
-                    --xStartR;
-                    --yStartR;
                     cell.setSelectable(false);
                     for (; yStartR <= yEndR; yStartR++) {
-
-                        if (thisCell[xStartR][yStartR].getColor().equals(color[1])){
+                        //If is black turn , all white buttons in a right row should change to black with all cell property
+                        if (turn.equals(Turn.BLACK) && thisCell[xStartR][yStartR].getColor().equals(color[1])){
                             thisCell[xStartR][yStartR].setWhite(false);
                             thisCell[xStartR][yStartR].setBlack(true);
                         }
+                        //If is White turn , all black buttons in a right row should change to white with all cell property
+                        if (turn.equals(Turn.WHITE) && thisCell[xStartR][yStartR].getColor().equals(color[1])){
+                            thisCell[xStartR][yStartR].setWhite(true);
+                            thisCell[xStartR][yStartR].setBlack(false);
+                        }
 
+                        //Change color of buttons
                         thisCell[xStartR][yStartR].setColor(color[0]);
                         thisCell[xStartR][yStartR].setVisible(true);
                         thisCell[xStartR][yStartR].setStyle("-fx-background-color: " + color[0]);
                     }
-
+                    //reset color of selectable buttons to green
                     for (int i = 0; i < 8; i++) {
                         for (int j = 0; j < 8; j++) {
                             if (thisCell[i][j].isSelectable()){
@@ -266,7 +275,323 @@ public class GamePageController implements Initializable {
                             }
                         }
                     }
+                    //choose Next Turn
+                    if (turn.equals(Turn.BLACK)) {
+                        turn = Turn.WHITE;
+                        color[0] = "white";
+                        color[1] = "black";
+                        moveInAllButtons(color);
+                    } else {
 
+                        turn = Turn.BLACK;
+                        color[0] = "black";
+                        color[1] = "white";
+                        moveInAllButtons(color);
+                    }
+                }
+
+
+                //Left movement
+                if (cell.getxPosition() == xEndL && cell.getyPosition() == yEndL) {
+                    cell.setSelectable(false);
+                    for (; yStartL >= yEndL; yStartL--) {
+                        //If is black turn , all white buttons in a right row should change to black with all cell property
+                        if (turn.equals(Turn.BLACK) && thisCell[xStartL][yStartL].getColor().equals(color[1])){
+                            thisCell[xStartL][yStartL].setWhite(false);
+                            thisCell[xStartL][yStartL].setBlack(true);
+                        }
+                        //If is White turn , all black buttons in a right row should change to white with all cell property
+                        if (turn.equals(Turn.WHITE) && thisCell[xStartL][yStartL].getColor().equals(color[1])){
+                            thisCell[xStartL][yStartL].setWhite(true);
+                            thisCell[xStartL][yStartL].setBlack(false);
+                        }
+
+                        //Change color of buttons
+                        thisCell[xStartL][yStartL].setColor(color[0]);
+                        thisCell[xStartL][yStartL].setVisible(true);
+                        thisCell[xStartL][yStartL].setStyle("-fx-background-color: " + color[0]);
+                    }
+                    //reset color of selectable buttons to green
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            if (thisCell[i][j].isSelectable()){
+                                thisCell[i][j].setSelectable(false);
+                                thisCell[i][j].setStyle("-fx-background-color: green");
+                            }
+                        }
+                    }
+                    //choose Next Turn
+                    if (turn.equals(Turn.BLACK)) {
+                        turn = Turn.WHITE;
+                        color[0] = "white";
+                        color[1] = "black";
+                        moveInAllButtons(color);
+                    } else {
+
+                        turn = Turn.BLACK;
+                        color[0] = "black";
+                        color[1] = "white";
+                        moveInAllButtons(color);
+                    }
+                }
+
+
+                //Up movement
+                if (cell.getxPosition() == xEndU && cell.getyPosition() == yEndU) {
+                    cell.setSelectable(false);
+                    for (; xStartU >= xEndU; xStartU--) {
+                        //If is black turn , all white buttons in a right row should change to black with all cell property
+                        if (turn.equals(Turn.BLACK) && thisCell[xStartU][yStartU].getColor().equals(color[1])){
+                            thisCell[xStartU][yStartU].setWhite(false);
+                            thisCell[xStartU][yStartU].setBlack(true);
+                        }
+                        //If is White turn , all black buttons in a right row should change to white with all cell property
+                        if (turn.equals(Turn.WHITE) && thisCell[xStartU][yStartU].getColor().equals(color[1])){
+                            thisCell[xStartU][yStartU].setWhite(true);
+                            thisCell[xStartU][yStartU].setBlack(false);
+                        }
+
+                        //Change color of buttons
+                        thisCell[xStartU][yStartU].setColor(color[0]);
+                        thisCell[xStartU][yStartU].setVisible(true);
+                        thisCell[xStartU][yStartU].setStyle("-fx-background-color: " + color[0]);
+                    }
+                    //reset color of selectable buttons to green
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            if (thisCell[i][j].isSelectable()){
+                                thisCell[i][j].setSelectable(false);
+                                thisCell[i][j].setStyle("-fx-background-color: green");
+                            }
+                        }
+                    }
+                    //choose Next Turn
+                    if (turn.equals(Turn.BLACK)) {
+                        turn = Turn.WHITE;
+                        color[0] = "white";
+                        color[1] = "black";
+                        moveInAllButtons(color);
+                    } else {
+
+                        turn = Turn.BLACK;
+                        color[0] = "black";
+                        color[1] = "white";
+                        moveInAllButtons(color);
+                    }
+                }
+
+
+                //Down movement
+                if (cell.getxPosition() == xEndD && cell.getyPosition() == yEndD) {
+                    cell.setSelectable(false);
+                    for (; xStartD <= xEndD; xStartD++) {
+                        //If is black turn , all white buttons in a right row should change to black with all cell property
+                        if (turn.equals(Turn.BLACK) && thisCell[xStartD][yStartD].getColor().equals(color[1])){
+                            thisCell[xStartD][yStartD].setWhite(false);
+                            thisCell[xStartD][yStartD].setBlack(true);
+                        }
+                        //If is White turn , all black buttons in a right row should change to white with all cell property
+                        if (turn.equals(Turn.WHITE) && thisCell[xStartD][yStartD].getColor().equals(color[1])){
+                            thisCell[xStartD][yStartD].setWhite(true);
+                            thisCell[xStartD][yStartD].setBlack(false);
+                        }
+
+                        //Change color of buttons
+                        thisCell[xStartD][yStartD].setColor(color[0]);
+                        thisCell[xStartD][yStartD].setVisible(true);
+                        thisCell[xStartD][yStartD].setStyle("-fx-background-color: " + color[0]);
+                    }
+                    //reset color of selectable buttons to green
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            if (thisCell[i][j].isSelectable()){
+                                thisCell[i][j].setSelectable(false);
+                                thisCell[i][j].setStyle("-fx-background-color: green");
+                            }
+                        }
+                    }
+                    //choose Next Turn
+                    if (turn.equals(Turn.BLACK)) {
+                        turn = Turn.WHITE;
+                        color[0] = "white";
+                        color[1] = "black";
+                        moveInAllButtons(color);
+                    } else {
+
+                        turn = Turn.BLACK;
+                        color[0] = "black";
+                        color[1] = "white";
+                        moveInAllButtons(color);
+                    }
+                }
+
+
+                //Right Up movement
+                if (cell.getxPosition() == xEndRU && cell.getyPosition() == yEndRU) {
+                    cell.setSelectable(false);
+                    for (; xStartRU >= xEndRU && yStartRU <= yEndRU; xStartRU-- , yStartRU++) {
+                        //If is black turn , all white buttons in a right row should change to black with all cell property
+                        if (turn.equals(Turn.BLACK) && thisCell[xStartRU][yStartRU].getColor().equals(color[1])){
+                            thisCell[xStartRU][yStartRU].setWhite(false);
+                            thisCell[xStartRU][yStartRU].setBlack(true);
+                        }
+                        //If is White turn , all black buttons in a right row should change to white with all cell property
+                        if (turn.equals(Turn.WHITE) && thisCell[xStartRU][yStartRU].getColor().equals(color[1])){
+                            thisCell[xStartRU][yStartRU].setWhite(true);
+                            thisCell[xStartRU][yStartRU].setBlack(false);
+                        }
+
+                        //Change color of buttons
+                        thisCell[xStartRU][yStartRU].setColor(color[0]);
+                        thisCell[xStartRU][yStartRU].setVisible(true);
+                        thisCell[xStartRU][yStartRU].setStyle("-fx-background-color: " + color[0]);
+                    }
+                    //reset color of selectable buttons to green
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            if (thisCell[i][j].isSelectable()){
+                                thisCell[i][j].setSelectable(false);
+                                thisCell[i][j].setStyle("-fx-background-color: green");
+                            }
+                        }
+                    }
+                    //choose Next Turn
+                    if (turn.equals(Turn.BLACK)) {
+                        turn = Turn.WHITE;
+                        color[0] = "white";
+                        color[1] = "black";
+                        moveInAllButtons(color);
+                    } else {
+
+                        turn = Turn.BLACK;
+                        color[0] = "black";
+                        color[1] = "white";
+                        moveInAllButtons(color);
+                    }
+                }
+
+
+
+                //Left Up movement
+                if (cell.getxPosition() == xEndRRU && cell.getyPosition() == yEndRRU) {
+                    cell.setSelectable(false);
+                    for (; xStartRRU >= xEndRRU && yStartRRU >= yEndRRU; xStartRRU-- , yStartRRU--) {
+                        //If is black turn , all white buttons in a right row should change to black with all cell property
+                        if (turn.equals(Turn.BLACK) && thisCell[xStartRRU][yStartRRU].getColor().equals(color[1])){
+                            thisCell[xStartRRU][yStartRRU].setWhite(false);
+                            thisCell[xStartRRU][yStartRRU].setBlack(true);
+                        }
+                        //If is White turn , all black buttons in a right row should change to white with all cell property
+                        if (turn.equals(Turn.WHITE) && thisCell[xStartRRU][yStartRRU].getColor().equals(color[1])){
+                            thisCell[xStartRRU][yStartRRU].setWhite(true);
+                            thisCell[xStartRRU][yStartRRU].setBlack(false);
+                        }
+
+                        //Change color of buttons
+                        thisCell[xStartRRU][yStartRRU].setColor(color[0]);
+                        thisCell[xStartRRU][yStartRRU].setVisible(true);
+                        thisCell[xStartRRU][yStartRRU].setStyle("-fx-background-color: " + color[0]);
+                    }
+                    //reset color of selectable buttons to green
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            if (thisCell[i][j].isSelectable()){
+                                thisCell[i][j].setSelectable(false);
+                                thisCell[i][j].setStyle("-fx-background-color: green");
+                            }
+                        }
+                    }
+                    //choose Next Turn
+                    if (turn.equals(Turn.BLACK)) {
+                        turn = Turn.WHITE;
+                        color[0] = "white";
+                        color[1] = "black";
+                        moveInAllButtons(color);
+                    } else {
+
+                        turn = Turn.BLACK;
+                        color[0] = "black";
+                        color[1] = "white";
+                        moveInAllButtons(color);
+                    }
+                }
+
+
+                //Right Down movement
+                if (cell.getxPosition() == xEndRRD && cell.getyPosition() == yEndRRD) {
+                    cell.setSelectable(false);
+                    for (; xStartRRD <= xEndRRD && yStartRRD <= yEndRRD; xStartRRD++ , yStartRRD++) {
+                        //If is black turn , all white buttons in a right row should change to black with all cell property
+                        if (turn.equals(Turn.BLACK) && thisCell[xStartRRD][yStartRRD].getColor().equals(color[1])){
+                            thisCell[xStartRRD][yStartRRD].setWhite(false);
+                            thisCell[xStartRRD][yStartRRD].setBlack(true);
+                        }
+                        //If is White turn , all black buttons in a right row should change to white with all cell property
+                        if (turn.equals(Turn.WHITE) && thisCell[xStartRRD][yStartRRD].getColor().equals(color[1])){
+                            thisCell[xStartRRD][yStartRRD].setWhite(true);
+                            thisCell[xStartRRD][yStartRRD].setBlack(false);
+                        }
+
+                        //Change color of buttons
+                        thisCell[xStartRRD][yStartRRD].setColor(color[0]);
+                        thisCell[xStartRRD][yStartRRD].setVisible(true);
+                        thisCell[xStartRRD][yStartRRD].setStyle("-fx-background-color: " + color[0]);
+                    }
+                    //reset color of selectable buttons to green
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            if (thisCell[i][j].isSelectable()){
+                                thisCell[i][j].setSelectable(false);
+                                thisCell[i][j].setStyle("-fx-background-color: green");
+                            }
+                        }
+                    }
+                    //choose Next Turn
+                    if (turn.equals(Turn.BLACK)) {
+                        turn = Turn.WHITE;
+                        color[0] = "white";
+                        color[1] = "black";
+                        moveInAllButtons(color);
+                    } else {
+
+                        turn = Turn.BLACK;
+                        color[0] = "black";
+                        color[1] = "white";
+                        moveInAllButtons(color);
+                    }
+                }
+
+
+                //Left Down movement
+                if (cell.getxPosition() == xEndRD && cell.getyPosition() == yEndRD) {
+                    cell.setSelectable(false);
+                    for (; xStartRD <= xEndRD && yStartRD >= yEndRD; xStartRD++ , yStartRD--) {
+                        //If is black turn , all white buttons in a right row should change to black with all cell property
+                        if (turn.equals(Turn.BLACK) && thisCell[xStartRD][yStartRD].getColor().equals(color[1])){
+                            thisCell[xStartRD][yStartRD].setWhite(false);
+                            thisCell[xStartRD][yStartRD].setBlack(true);
+                        }
+                        //If is White turn , all black buttons in a right row should change to white with all cell property
+                        if (turn.equals(Turn.WHITE) && thisCell[xStartRD][yStartRD].getColor().equals(color[1])){
+                            thisCell[xStartRD][yStartRD].setWhite(true);
+                            thisCell[xStartRD][yStartRD].setBlack(false);
+                        }
+
+                        //Change color of buttons
+                        thisCell[xStartRD][yStartRD].setColor(color[0]);
+                        thisCell[xStartRD][yStartRD].setVisible(true);
+                        thisCell[xStartRD][yStartRD].setStyle("-fx-background-color: " + color[0]);
+                    }
+                    //reset color of selectable buttons to green
+                    for (int i = 0; i < 8; i++) {
+                        for (int j = 0; j < 8; j++) {
+                            if (thisCell[i][j].isSelectable()){
+                                thisCell[i][j].setSelectable(false);
+                                thisCell[i][j].setStyle("-fx-background-color: green");
+                            }
+                        }
+                    }
+                    //choose Next Turn
                     if (turn.equals(Turn.BLACK)) {
                         turn = Turn.WHITE;
                         color[0] = "white";
@@ -290,14 +615,13 @@ public class GamePageController implements Initializable {
 
     private boolean rightOfBlackCell(Cell[][] cell , int x , int y, String[] color){
 
-        xStartR = x;
-        yStartR = y;
-
         if (y == 7)
             return false; //Delete all if st in all check functions ; just remain for loops
         else {
             for (y = y +1; y < 8; y++) {
                 if (cell[x][y].getColor().equals(color[1])){
+                    xStartR = x;
+                    yStartR = y - 1;
                     return rightCheckOfBlackCell(cell , x , y , color);
                 }
                 else if (cell[x][y].getColor().equals(color[0]))
@@ -312,14 +636,13 @@ public class GamePageController implements Initializable {
 
     private boolean leftOfBlackCell(Cell [][] cell , int x , int y  , String [] color){
 
-        xStartL = x;
-        yStartL = y;
-
         if (y == 7)
         return false;
         else {
             for (y = y -1; y >=0; y--) {
                 if (cell[x][y].getColor().equals(color[1])){
+                    xStartL = x;
+                    yStartL = y + 1;
                     return leftCheckOfBlackCell(cell , x , y , color);
                 }
                 else if (cell[x][y].getColor().equals(color[0]))
@@ -339,14 +662,13 @@ public class GamePageController implements Initializable {
     // check Up of Black btn
     private boolean UPOfBlackCell(Cell [][] cell , int x , int y , String [] color){
 
-        xStartU = x;
-        yStartU = y;
-
         if (x == 7)
             return false;
         else {
             for (x = x -1; x >=0; x--) {
                 if (cell[x][y].getColor().equals(color[1])){
+                    xStartU = x + 1;
+                    yStartU = y;
                     return UPCheckOfBlackCell(cell , x , y , color);
                 }
                 else if (cell[x][y].getColor().equals(color[0]))
@@ -362,14 +684,13 @@ public class GamePageController implements Initializable {
 
     private boolean DownOfBlackCell(Cell [][] cell , int x , int y , String [] color){
 
-        xStartD = x;
-        yStartD = y;
-
         if (x == 7)
             return false;
         else {
             for (x = x +1; x <=8; x++) {
                 if (cell[x][y].getColor().equals(color[1])){
+                    xStartD = x - 1;
+                    yStartD = y;
                     return DCheckOfBlackCell(cell , x , y , color);
                 }
                 else if (cell[x][y].getColor().equals(color[0]))
@@ -383,18 +704,15 @@ public class GamePageController implements Initializable {
     }
     private boolean URealRUOfBlackCell(Cell [][] cell , int x , int y , String [] color ){
 
-        xStartRU = x;
-        yStartRU = y;
-
         if (x == 7 || y==7)
             return false;
         else {
              y = y+1;
             for (x = x -1; x >=0&&y<=8; x-- , y++) {
 
-
-
                     if (cell[x][y].getColor().equals(color[1])) {
+                        xStartRU = x + 1;
+                        yStartRU = y - 1;
                         return URealRUCheckOfBlackCell(cell, x, y , color);
                     } else if (cell[x][y].getColor().equals(color[0]))
                         return false;
@@ -410,18 +728,15 @@ public class GamePageController implements Initializable {
 
     private boolean RealRUOfBlackCell(Cell [][] cell , int x , int y , String [] color){
 
-        xStartRRU = x;
-        yStartRRU = y;
-
         if (x == 7 || y==7)
             return false;
         else {
             y = y-1;
             for (x = x -1; x >=0&&y>=0; x-- , y--) {
 
-
-
                 if (cell[x][y].getColor().equals(color[1])) {
+                    xStartRRU = x + 1;
+                    yStartRRU = y + 1;
                     return RealRUCheckOfBlackCell(cell, x, y , color);
                 } else if (cell[x][y].getColor().equals(color[0]))
                     return false;
@@ -437,18 +752,15 @@ public class GamePageController implements Initializable {
 
     private boolean RealRDOfBlackCell(Cell [][] cell , int x , int y , String [] color){
 
-        xStartRRD = x;
-        yStartRRD = y;
-
         if (x == 7 || y==7)
             return false;
         else {
             y = y+1;
             for (x = x +1; x <=8&&y<=8; x++ , y++) {
 
-
-
                 if (cell[x][y].getColor().equals(color[1])) {
+                    xStartRRD = x - 1;
+                    yStartRRD = y - 1;
                     return RealRDCheckOfBlackCell(cell, x, y ,color);
                 } else if (cell[x][y].getColor().equals(color[0]))
                     return false;
@@ -464,18 +776,15 @@ public class GamePageController implements Initializable {
 
     private boolean URealRDOfBlackCell(Cell [][] cell , int x , int y , String [] color){
 
-        xStartRD = x;
-        yStartRD = y;
-
         if (x == 7 || y==7)
             return false;
         else {
             y = y-1;
             for (x = x +1; x <8&&y>=0; x++ , y--) {
 
-
-
                 if (cell[x][y].getColor().equals(color[1])) {
+                    xStartRD = x - 1;
+                    yStartRD = y + 1;
                     return URealRDCheckOfBlackCell(cell, x, y , color);
                 } else if (cell[x][y].getColor().equals(color[0]))
                     return false;
