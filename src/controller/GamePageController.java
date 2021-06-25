@@ -23,6 +23,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.Cell;
 import model.User;
@@ -51,8 +52,8 @@ public class GamePageController implements Initializable {
 
     static boolean endOfGame = false;
 
-    private User user1 = LoginPageController.user1;
-    private  User user2 = LoginPageController.user2;
+    public static User user1 = LoginPageController.user1;
+    public static   User user2 = LoginPageController.user2;
 
      // images for animation :) -------------------------------------------------------------
     final Image onePicture = new Image(String.valueOf(
@@ -489,13 +490,31 @@ public class GamePageController implements Initializable {
                     moveInAllButtons(color);
                     coloredTheGrayBTN(color);
                 }
-            }else{}
+            }else{
+                loadEndGamePage();
+            }
         }
 
 
     }
 
-    private void loadEndGamePage(){}
+    private void loadEndGamePage(){
+        Stage endGameStage = ((Stage) label.getScene().getWindow());
+
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/EndGame.fxml"));
+
+        try {
+            loader.load();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        Image image = new Image("/images/imgbin_circle-png.png");
+        endGameStage.getIcons().add(image);
+        endGameStage.setScene(new Scene(loader.getRoot()));
+        endGameStage.setTitle("Othello ~Designed by : SaraNikMehr & MohammadHMazarei~");
+        endGameStage.setResizable(false);
+        endGameStage.show();
+    }
 
 
     private boolean[] foundRange(Cell cell , Color [] color){
