@@ -44,12 +44,7 @@ public class GamePageController implements Initializable {
 
     static final int row = 8;
     static final int column = 8;
-
-    static int countOfColoredBTN = 4;
-
     public  static Turn turn = Turn.BLACK;
-
-    static boolean endOfGame = false;
 
     private User user1 = LoginPageController.user1;
     private  User user2 = LoginPageController.user2;
@@ -73,15 +68,16 @@ public class GamePageController implements Initializable {
     public static Group othello;
 
      @FXML
-     private Label pointOfWhite , pointOfBlack, label;
+     private Label pointOfWhite , pointOfBlack, label,whiteLBL,blackLBL;
 
     @FXML
     private VBox playGround;
+
     @FXML
     private HBox hbX;
 
     @FXML
-    private MenuItem gameGuide ,exit , Music3 , Music2,stop ,Music1, about,scoreboard;
+    private MenuItem gameGuide ,exit ,scoreboard;
 
      @FXML
      private MenuBar menuBar;
@@ -92,16 +88,10 @@ public class GamePageController implements Initializable {
     @FXML
     private Circle redW , redB;
 
-    @FXML
-    private Label whiteLBL;
-
-    @FXML
-    private Label blackLBL;
-
     static MediaPlayer mediaPlayer;
 
 
-    @FXML
+    @FXML // on action for first menuItem to play first music
     private  void plyMusicOne(ActionEvent event){
         Media media = new Media(
                 "file:/C:/Users/NP/Desktop/Assassin_s_Creed_IV_Black_Flag_Assassin_s_Creed_IV_Blac.hd_.mp3");
@@ -115,13 +105,13 @@ public class GamePageController implements Initializable {
 
     }
 
-    @FXML
+    @FXML // change color of menuBar with mouse event
     private void ml(MouseEvent event){menuBar.setStyle("-fx-background-color: gray");}
 
-    @FXML
+    @FXML // change color of menu bar with mouse event
     private void mE(MouseEvent event){menuBar.setStyle("-fx-background-color:#cccccc ");}
 
-    @FXML
+    @FXML  // on action for second menuItem to play second music
     private  void playMusicTwo(ActionEvent event){
         Media media = new Media(
                 "file:/C:/Users/NP/Desktop/Epilogue_The_Legend_of_Zelda_Breath_of_the_Wild_OST_.hd_.mp3");
@@ -132,7 +122,7 @@ public class GamePageController implements Initializable {
 
     }
 
-    @FXML
+    @FXML // on action for third menuItem to play third music
     private  void playMusic3(){
         Media media = new Media(
                 "file:/C:/Users/NP/Desktop/Moon_Beach_Streets_of_Rage_1_Original_Soundtrack_OST_.hd_.mp3");
@@ -143,7 +133,7 @@ public class GamePageController implements Initializable {
 
     }
 
-    @FXML
+    @FXML  // show about page and add title and icon for this stage
     private void aboutA(ActionEvent event) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("../view/About.fxml"));
@@ -159,7 +149,7 @@ public class GamePageController implements Initializable {
 
     }
 
-    @FXML
+    @FXML // on action for stop menuItem to stop music
     private void stopF(ActionEvent event){if (mediaPlayer!=null){mediaPlayer.stop();}}
 
     static Cell[][] thisCell;
@@ -168,10 +158,10 @@ public class GamePageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        whiteLBL.setText(user2.getUserName() + " :");
-        blackLBL.setText(user1.getUserName() + " :");
+        whiteLBL.setText(user2.getUserName() + " :");// add name of second user to the Label marked
+        blackLBL.setText(user1.getUserName() + " :");//add name of first user to the Label marked
 
-       label.setText("REVERSI");
+       label.setText("REVERSI"); // name of game
 
         setUpButtons();
 
@@ -196,6 +186,7 @@ public class GamePageController implements Initializable {
         color1[1] = Color.BLACK;
           exitGamePage();
 
+          // changing turn for first time
             if (turn.equals(Turn.WHITE)) {coloredTheGrayBTN(color1);
                 redB.setVisible(false);
                 redW.setVisible(true);
@@ -212,7 +203,14 @@ public class GamePageController implements Initializable {
 
     }
 
-
+    /**
+     * set onAction for gameGuide button to show gameGuide page :)
+     * and add icon and title for stage of this pae
+     *
+     * ** int this method a new stage is created
+     *
+     *
+     */
     private void gameGuideOnAction(){
         gameGuide.setOnAction(e ->{
             FXMLLoader louder = new FXMLLoader(this.getClass().getResource("../view/GameGuide.fxml"));
@@ -235,12 +233,17 @@ public class GamePageController implements Initializable {
     }
 
 
+    /**
+     * set onAction for scoreBoard button to show scoreBoard Page :)
+     * -> No new stage will be created to show this page !!!:)
+     * + add icon and title for this page
+     * @see #scoreboardOnAction(ScoreboardController)
+     */
     private void scoreboardOnAction(){
         scoreboard.setOnAction(e -> {
             Stage scoreboardStage = ((Stage) label.getScene().getWindow());
 
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Scoreboard.fxml"));
-
             try {
                 loader.load();
             } catch (IOException ioException) {
@@ -267,6 +270,7 @@ public class GamePageController implements Initializable {
     }
 
 
+    //Add color , style and font for nameOfGame label
     private void labelW() {
         label.setTextAlignment(TextAlignment.CENTER);
         label.setStyle("-fx-background-color: transparent");
@@ -274,8 +278,8 @@ public class GamePageController implements Initializable {
     }
 
 
+    // close the game page
     private void exitGamePage(){
-
         exit.setOnAction(event1 -> {
             ((Stage) playGround.getScene().getWindow()).close();
         });
@@ -298,6 +302,7 @@ public class GamePageController implements Initializable {
         }
     }
 
+    // add animated pictures to the game page
     private void myAnimation(){
 
         // set size of image view
@@ -313,17 +318,22 @@ public class GamePageController implements Initializable {
 
         Timeline t = new Timeline();
         t.setCycleCount(Timeline.INDEFINITE);
+
+        //add frame for first imageView
         t.getKeyFrames().add(new KeyFrame(
                         Duration.millis(400),(ActionEvent)->{
                     othello.getChildren().setAll(pic1);
                 }   )
         );
 
+        //add frame for second imageView
         t.getKeyFrames().add(new KeyFrame(
                         Duration.millis(700),(ActionEvent)->{
                     othello.getChildren().setAll(pic2);
                 }   )
         );
+
+        // add frame for third imageView
         t.getKeyFrames().add(new KeyFrame(
                         Duration.millis(1000),(ActionEvent)->{
                     othello.getChildren().setAll(pic3);
@@ -361,12 +371,15 @@ public class GamePageController implements Initializable {
 
     }
 
-//     private boolean setEnd(){
-//
-//
-//     }
 
-
+    /**
+     * If it is a black turn, this method is called
+     * In this method, we call different methods and depending on whether the condition is true or false,
+     * the buttons turn gray in different directions if possible.
+     *
+     * @see #mvm(Color[])
+     * @param color .. for black's turn
+     */
     private void moveInAllButtons(Color [] color){
 
         for (int i = 0; i < row; i++) {
@@ -399,6 +412,7 @@ public class GamePageController implements Initializable {
 
     }
 
+    //this method se in moveInAllButtons and mvm method to set property of gray button
   private  void grayBTN(int x , int y){
       thisCell[x][y].setColor(Color.GRAY);
       thisCell[x][y].setSelectable(true);
@@ -437,32 +451,39 @@ public class GamePageController implements Initializable {
             }
     }
 
+
+    /**
+     * call action for add gray button
+     * call moveInAllButton and mvm method
+     * @param color ..
+     */
     private  void  coloredTheGrayBTN(Color[] color){
 
         if (turn.equals(Turn.BLACK)) {moveInAllButtons(color);}
-        else
-        {
-            mvm(color);
-        }
+        else{mvm(color);}
 
-
+        int countIsSelectable = 0 , countIsFull = 0;// To understand the end of the game :(
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 if (thisCell[i][j].isSelectable() && thisCell[i][j].getColor().equals(Color.GRAY)){
-                    onActionForGrayBTN(thisCell[i][j] , color);
-
-
-                    
+                    onActionForGrayBTN(thisCell[i][j] , color);// action of gray button
+                    countIsSelectable++;
                 }
+                else if(thisCell[i][j].getColor().equals(Color.BLACK) || thisCell[i][j].getColor().equals(Color.WHITE))
+                    countIsFull++;
             }
         }
 
+        // add point of black and white user and labels
         pointOfWhite.setText(String.valueOf(numOfButton(Color.WHITE)));
         user2.setPoint(numOfButton(Color.WHITE));
         pointOfBlack.setText(String.valueOf(numOfButton(Color.BLACK)));
         user1.setPoint(numOfButton(Color.BLACK));
-        if (turn.equals(Turn.WHITE)){
+
+
+
+        if (turn.equals(Turn.WHITE)){ // visible O invisible  the red circle to show turn of users ...
             redW.setVisible(true);
             redB.setVisible(false);
         }else if (turn.equals(Turn.BLACK)){
@@ -471,9 +492,39 @@ public class GamePageController implements Initializable {
         }
 
 
+        if (countIsSelectable == 0) {
+            if (countIsFull != 64) {
+                if (turn.equals(Turn.BLACK)) {
+                    turn = Turn.WHITE;
+                    color[0] = Color.WHITE;
+                    color[1] = Color.BLACK;
+                    mvm(color);
+                    coloredTheGrayBTN(color);
+
+                } else if (turn.equals(Turn.WHITE)) {
+
+                    turn = Turn.BLACK;
+                    color[0] = Color.BLACK;
+                    color[1] = Color.WHITE;
+                    moveInAllButtons(color);
+                    coloredTheGrayBTN(color);
+                }
+            }else{}
+        }
+
+
     }
 
+    private void loadEndGamePage(){}
 
+
+    /**
+     *
+     * @param cell  Each gray button whose onActionMethod is called
+     * @param color It is different for each turn
+     * @return boolean array to specify the position of the different directions to determine
+     * which buttons should be painted in which directions
+     */
     private boolean[] foundRange(Cell cell , Color [] color){
 
         boolean [] result = new boolean[8];
@@ -491,6 +542,7 @@ public class GamePageController implements Initializable {
 
     }
 
+    // changing the gray button to green button in each turn :)
     private  void  addUn(){
 
         for (int i = 0; i < row; i++) {
@@ -502,10 +554,13 @@ public class GamePageController implements Initializable {
             }
 
         }
-
-
     }
 
+    /**
+     *
+     * @param color It is different for each turn
+     * @return   number of each button such as black button and white button
+     */
     private  int numOfButton(Color color){
         int count =0;
         for (int i = 0; i < row; i++) {
@@ -518,191 +573,185 @@ public class GamePageController implements Initializable {
             }
         }
 
-
-
         return count;
     }
 
-    private  void  onActionForGrayBTN(Cell cell , Color [] color){
 
-            cell.setOnAction(event -> {
+    /**
+     * This function takes the coordinates of a button and determines its color.
+     * ++ selectable-> false
+     * @param color It is different for each turn
+     * @param x xPosition of specific button
+     * @param y yPosition of specific button
+     */
+    private void setColoredBTN(Color color , int x , int y){
+        thisCell[x][y].setColor(color);
+        thisCell[x][y].setSelectable(false);
+    }
 
-                if ((cell.isSelectable() && cell.getColor().equals(Color.GRAY))) {
-                    boolean[] result = foundRange(thisCell[cell.getxPosition()][cell.getyPosition()], color);
 
-                    if (result[0]) {
+    /**
+     * This function takes the coordinates of a button and determines its property
+     * @param x xPosition of specific button
+     * @param y yPosition of specific button
+     * @param setBlack boolean value to set this property of specific button whether the button is black or not
+     * @param setWhite boolean value to set this property of specific button whether the button is white or not
+     */
+    private void  setBlackOWhite(int x , int y , boolean setBlack , boolean setWhite){
+        thisCell[x][y].setBlack(setBlack);
+        thisCell[x][y].setWhite(setWhite);
+    }
 
 
-                        for (int i = cell.getyPosition(); i <= yEndR; i++) {
-                            thisCell[cell.getxPosition()][i].setColor(color[0]);
-                            thisCell[cell.getxPosition()][i].setVisible(true);
-                            thisCell[cell.getxPosition()][i].setSelectable(false);
-                            if (turn.equals(Turn.BLACK)) {
-                                thisCell[cell.getxPosition()][i].setBlack(true);
-                                thisCell[cell.getxPosition()][i].setWhite(false);
-                            } else {
+    /**
+     *in this method  foundRange method is called that return a boolean array To determine which direction or directions
+     *  around the gray button when pressing the button should be white or black.
+     *  Then the corresponding directions become black or white ....
+     * @param cell specific gray button
+     * @param color It is different for each turn
+     */
+    private  void  onActionForGrayBTN(Cell cell , Color [] color) {
 
-                                thisCell[cell.getxPosition()][i].setBlack(false);
-                                thisCell[cell.getxPosition()][i].setWhite(true);
-                            }
+        cell.setOnAction(event -> {
+
+            if ((cell.isSelectable() && cell.getColor().equals(Color.GRAY))) {
+                boolean[] result = foundRange(thisCell[cell.getxPosition()][cell.getyPosition()], color);
+
+                if (result[0]) { // right of gray cell
+                    for (int i = cell.getyPosition(); i <= yEndR; i++) {
+                        setColoredBTN(color[0], cell.getxPosition(), i);
+                        if (turn.equals(Turn.BLACK)) {
+                            setBlackOWhite(cell.getxPosition(), i, true, false);
+                        } else {
+                            setBlackOWhite(cell.getxPosition(), i, false, true);
                         }
-
-                        addUn();
                     }
-                    if (result[1]) {
-                        for (int i = cell.getyPosition(); i >= yEnd; i--) {
-                            thisCell[cell.getxPosition()][i].setColor(color[0]);
-                            thisCell[cell.getxPosition()][i].setVisible(true);
-                            thisCell[cell.getxPosition()][i].setSelectable(false);
-                            if (turn.equals(Turn.BLACK)) {
-                                thisCell[cell.getxPosition()][i].setBlack(true);
-                                thisCell[cell.getxPosition()][i].setWhite(false);
-                            } else {
 
-                                thisCell[cell.getxPosition()][i].setBlack(false);
-                                thisCell[cell.getxPosition()][i].setWhite(true);
-                            }
+                    addUn();
+                }
+                if (result[1]) { //left of gray cell
+                    for (int i = cell.getyPosition(); i >= yEnd; i--) {
+                        setColoredBTN(color[0], cell.getxPosition(), i);
+                        if (turn.equals(Turn.BLACK)) {
+                            setBlackOWhite(cell.getxPosition(), i, true, false);
+                        } else {
+                            setBlackOWhite(cell.getxPosition(), i, false, true);
                         }
-
-                        addUn();
                     }
 
-                    if (result[2]){
+                    addUn();
+                }
 
-                        for (int i = cell.getxPosition(); i <= xEndD; i++) {
-                            thisCell[i][cell.getyPosition()].setColor(color[0]);
-                            thisCell[i][cell.getyPosition()].setVisible(true);
-                            thisCell[i][cell.getyPosition()].setSelectable(false);
-                            if (turn.equals(Turn.BLACK)) {
-                                thisCell[i][cell.getyPosition()].setBlack(true);
-                                thisCell[i][cell.getyPosition()].setWhite(false);
-                            } else {
+                if (result[2]) { //down of gray cell
 
-                                thisCell[i][cell.getyPosition()].setBlack(false);
-                                thisCell[i][cell.getyPosition()].setWhite(true);
-                            }
+                    for (int i = cell.getxPosition(); i <= xEndD; i++) {
+                        setColoredBTN(color[0], i, cell.getyPosition());
+                        if (turn.equals(Turn.BLACK)) {
+                            setBlackOWhite(i, cell.getyPosition(), true, false);
+                        } else {
+                            setBlackOWhite(i, cell.getyPosition(), false, true);
                         }
-
-                        addUn();
-
                     }
-                    if (result[3]) {
 
-                        for (int i = cell.getxPosition(); i >= xEndU; i--) {
-                            thisCell[i][cell.getyPosition()].setColor(color[0]);
-                            thisCell[i][cell.getyPosition()].setVisible(true);
-                            thisCell[i][cell.getyPosition()].setSelectable(false);
-                            if (turn.equals(Turn.BLACK)) {
-                                thisCell[i][cell.getyPosition()].setBlack(true);
-                                thisCell[i][cell.getyPosition()].setWhite(false);
-                            } else {
+                    addUn();
 
-                                thisCell[i][cell.getyPosition()].setBlack(false);
-                                thisCell[i][cell.getyPosition()].setWhite(true);
-                            }
+                }
+                if (result[3]) { // up of gray cell
+                    for (int i = cell.getxPosition(); i >= xEndU; i--) {
+                        setColoredBTN(color[0], i, cell.getyPosition());
+                        if (turn.equals(Turn.BLACK)) {
+                            setBlackOWhite(i, cell.getyPosition(), true, false);
+                        } else {
+                            setBlackOWhite(i, cell.getyPosition(), false, true);
                         }
-
-                        addUn();
                     }
-                    if (result[4]) {
 
-                        for (int i = cell.getxPosition(), j = cell.getyPosition(); i >= xEndRRU && j >= yEndRRU; i--, j--) {
-                            thisCell[i][j].setColor(color[0]);
-                            thisCell[i][j].setVisible(true);
-                            thisCell[i][j].setSelectable(false);
-                            if (turn.equals(Turn.BLACK)) {
-                                thisCell[i][j].setBlack(true);
-                                thisCell[i][j].setWhite(false);
-                            } else {
+                    addUn();
+                }
+                if (result[4]) { // up of real diameter
 
-                                thisCell[i][j].setBlack(false);
-                                thisCell[i][j].setWhite(true);
-                            }
+                    for (int i = cell.getxPosition(), j = cell.getyPosition(); i >= xEndRRU && j >= yEndRRU; i--, j--) {
+                        setColoredBTN(color[0], i, j);
+                        if (turn.equals(Turn.BLACK)) {
+                            setBlackOWhite(i, j, true, false);
+                        } else {
+                            setBlackOWhite(i, j, false, true);
                         }
-                        addUn();
-
                     }
-
-                    if (result[5]) {
-                        for (int i = cell.getxPosition(), j = cell.getyPosition(); i <= xEndRRD && j <= yEndRRD; i++, j++) {
-                            thisCell[i][j].setColor(color[0]);
-                            thisCell[i][j].setVisible(true);
-                            thisCell[i][j].setSelectable(false);
-                            if (turn.equals(Turn.BLACK)) {
-                                thisCell[i][j].setBlack(true);
-                                thisCell[i][j].setWhite(false);
-                            } else {
-
-                                thisCell[i][j].setBlack(false);
-                                thisCell[i][j].setWhite(true);
-                            }
-                        }
-                        addUn();
-
-                    }
-                    if (result[6]) {
-                        for (int i = cell.getxPosition(), j = cell.getyPosition(); i >= xEndRU && j <= yEndRU; i--, j++) {
-                            thisCell[i][j].setColor(color[0]);
-                            thisCell[i][j].setVisible(true);
-                            thisCell[i][j].setSelectable(false);
-                            if (turn.equals(Turn.BLACK)) {
-                                thisCell[i][j].setBlack(true);
-                                thisCell[i][j].setWhite(false);
-                            } else {
-
-                                thisCell[i][j].setBlack(false);
-                                thisCell[i][j].setWhite(true);
-                            }
-                        }
-                        addUn();
-
-                    }
-
-                    if (result[7]) {
-
-                        for (int i = cell.getxPosition(), j = cell.getyPosition(); i <= xEndRD && j >= yEndRD; i++, j--) {
-                            thisCell[i][j].setColor(color[0]);
-                            thisCell[i][j].setVisible(true);
-                            thisCell[i][j].setSelectable(false);
-                            if (turn.equals(Turn.BLACK)) {
-                                thisCell[i][j].setBlack(true);
-                                thisCell[i][j].setWhite(false);
-                            } else {
-
-                                thisCell[i][j].setBlack(false);
-                                thisCell[i][j].setWhite(true);
-                            }
-                        }
-
-                        addUn();
-                    }
-
-                    if (turn.equals(Turn.BLACK)) {
-                        turn = Turn.WHITE;
-                        color[0] = Color.WHITE;
-                        color[1] = Color.BLACK;
-                        mvm(color);
-                        coloredTheGrayBTN(color);
-
-                    } else if (turn.equals(Turn.WHITE)) {
-
-                        turn = Turn.BLACK;
-                        color[0] = Color.BLACK;
-                        color[1] = Color.WHITE;
-                        moveInAllButtons(color);
-                        coloredTheGrayBTN(color);
-                    }
-
+                    addUn();
 
                 }
 
-            });
+                if (result[5]) { // down of real diameter
+                    for (int i = cell.getxPosition(), j = cell.getyPosition(); i <= xEndRRD && j <= yEndRRD; i++, j++) {
+                        setColoredBTN(color[0], i, j);
+                        if (turn.equals(Turn.BLACK)) {
+                            setBlackOWhite(i, j, true, false);
+                        } else {
+                            setBlackOWhite(i, j, false, true);
+                        }
+                    }
+                    addUn();
+
+                }
+                if (result[6]) { // up of unReal diameter
+                    for (int i = cell.getxPosition(), j = cell.getyPosition(); i >= xEndRU && j <= yEndRU; i--, j++) {
+                        setColoredBTN(color[0], i, j);
+                        if (turn.equals(Turn.BLACK)) {
+                            setBlackOWhite(i, j, true, false);
+                        } else {
+                            setBlackOWhite(i, j, false, true);
+                        }
+                    }
+                    addUn();
+
+                }
+
+                if (result[7]) { // down of unReal diameter
+
+                    for (int i = cell.getxPosition(), j = cell.getyPosition(); i <= xEndRD && j >= yEndRD; i++, j--) {
+                        setColoredBTN(color[0], i, j);
+                        if (turn.equals(Turn.BLACK)) {
+                            setBlackOWhite(i, j, true, false);
+                        } else {
+                            setBlackOWhite(i, j, false, true);
+                        }
+                    }
+
+                    addUn();
+                }
+
+                //changing the turn
+                if (turn.equals(Turn.BLACK)) {
+                    turn = Turn.WHITE;
+                    color[0] = Color.WHITE;
+                    color[1] = Color.BLACK;
+                    mvm(color);
+                    coloredTheGrayBTN(color);
+
+                } else if (turn.equals(Turn.WHITE)) {
+                    turn = Turn.BLACK;
+                    color[0] = Color.BLACK;
+                    color[1] = Color.WHITE;
+                    moveInAllButtons(color);
+                    coloredTheGrayBTN(color);
+                }
 
 
+            }
+
+        });
     }
 
-    private boolean[] searchAllBTN(Color [] color , int i , int j){
 
+    /**
+     *
+     * @param color It is different for each turn
+     * @param i xPosition of black or white cell
+     * @param j yPosition of black or white cell
+     * @return boolean array to  indicate which buttons can be grayed out :))
+     */
+    private boolean[] searchAllBTN(Color [] color , int i , int j){
         boolean [] result = new boolean[8];
 
           result[0] = rightOfBlackCell(thisCell , i , j , color);
