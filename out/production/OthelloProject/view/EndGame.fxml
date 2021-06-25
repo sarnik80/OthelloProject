@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="255.0" prefWidth="593.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EndGamePageController">
+   <children>
+      <ImageView fitHeight="262.0" fitWidth="603.0" layoutX="-4.0" layoutY="-2.0">
+         <image>
+            <Image url="@../images/backgrand2.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="58.0" layoutY="31.0" prefHeight="193.0" prefWidth="476.0" style="-fx-background-color: #212121; -fx-background-radius: 30;">
+         <children>
+            <AnchorPane layoutX="148.0" layoutY="52.0" prefHeight="3.0" prefWidth="178.0" style="-fx-background-color: #ff3d00;" />
+            <Label layoutX="105.0" layoutY="-22.0" prefHeight="16.0" prefWidth="266.0" text="congratulation" textFill="WHITE">
+               <font>
+                  <Font name="Vivaldi Italic" size="63.0" />
+               </font>
+            </Label>
+            <Label fx:id="winnerLBL" alignment="CENTER" layoutX="4.0" layoutY="82.0" prefHeight="34.0" prefWidth="467.0" textFill="WHITE">
+               <font>
+                  <Font name="Rockwell" size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

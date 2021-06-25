@@ -50,6 +50,11 @@ public class RegisterPageController implements Initializable {
                 &&!this.usernameField.getText().isEmpty()&&!this.passwordField.getText().isEmpty();
     }
 
+    /**
+     * Uses it to prevent duplicate usernames
+     * @param username .. username of new user
+     * @return true or false
+     */
     private boolean searchInAllUser(String username){
 
         for (int i = 0; i < User.users.size(); i++) {
@@ -62,6 +67,8 @@ public class RegisterPageController implements Initializable {
         return true;
     }
 
+
+    // set onAction for register button to add new user to arrayList
     private  void addUser(){
         registerBTN.setOnAction(event -> {
 
@@ -87,6 +94,7 @@ public class RegisterPageController implements Initializable {
         });
 
     }
+
 
     protected  void addDetail(User user){
 

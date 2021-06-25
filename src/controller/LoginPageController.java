@@ -67,16 +67,25 @@ public class LoginPageController implements Initializable {
 
     }
 
+    // check all field
     private boolean checkField(){
         return !this.passwordField.getText().isEmpty()&& !this.usernameField.getText().isEmpty() &&
                 !usernameField2.getText().isEmpty() && !passwordField2.getText().isEmpty();
     }
 
+    // to set text and textFill of error label
   private  void  setTextOfERR(String text , String color) {
         errLBL.setText(text);
         errLBL.setTextFill(Color.valueOf(color));
   }
 
+
+    /**
+     * to found logged user
+     * @param username .. text of userName field
+     * @param password .. text of password field
+     * @return .. user
+     */
   private User foundUser(String username , String password){
       for (User u : User.users)
           if (u.getUserName().equalsIgnoreCase(username) && u.getPassword().equals(password)) {
@@ -86,9 +95,9 @@ public class LoginPageController implements Initializable {
     return null;
   }
 
+
+   // set on action for log In button and load the game page
     private void onActions() {
-
-
 
         loginBTN.setOnAction(event -> {
             if (checkField()) {
@@ -117,6 +126,8 @@ public class LoginPageController implements Initializable {
             } else {setTextOfERR("please fill all blanks", "RED");}
         });
     }
+
+
 
 
 
